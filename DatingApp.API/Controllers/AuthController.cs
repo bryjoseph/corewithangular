@@ -29,7 +29,7 @@ namespace DatingApp.API.Controllers
         public async Task<IActionResult> Register(UserForReqisteringDTO userRegDTO)
         {
             // 1st validate the request
-            // (This action is handled by the ApiControll annotation at the top of the controller)
+            // (This action is handled by the api/Controller annotation at the top of the controller)
             // (User response validation is being handled by the DTO required annotations)
 
             // 2nd convert username to lowercase (don't accept duplicate usernames)

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth_services/auth.service';
+import { AlertifyService } from '../_services/alertify_services/alertify.service';
 
 @Component({
   selector: 'app-nav',
@@ -11,26 +12,31 @@ export class NavComponent implements OnInit {
   // going to store the username and password
   model: any = {};
 
-  constructor(private authService: AuthService) { }
+  // authService is already injected into the nav component (no need to sep. inject JWTHelperService)
+  constructor(public authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
   }
 
   login() {
     this.authService.login(this.model).subscribe(next => {
-      console.log('Logged in Successfully!');
+      this.alertify.success('Logged in Successfully');
     }, error => {
-      console.log(error);
+      this.alertify.error(error);
     });
   }
 
   loggedIn() {
-    const token = localStorage.getItem('token');
-    return !!token;
+    // this was the old format of the loggedIn method call from the NAV component
+    // const token = localStorage.getItem('token');
+    // return !!token;
+
+    // new implementation
+    return this.authService.loggedIn();
   }
 
   logout() {
     localStorage.removeItem('token');
-    console.log('logged out');
+    this.alertify.message('Logged Out');
   }
 }
